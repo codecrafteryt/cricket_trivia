@@ -1,3 +1,11 @@
+/*
+      ---------------------------------------
+      Project: Crick trivia Game Mobile Application
+      Date: April 2, 2024
+      Author: Ameer from Pakistan
+      ---------------------------------------
+      Description: Custom Music Button
+    */
 import 'package:cricket_trivia/controller/sound_controller.dart';
 import 'package:cricket_trivia/utils/values/my_color.dart';
 import 'package:flutter/material.dart';

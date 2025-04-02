@@ -1,3 +1,11 @@
+/*
+      ---------------------------------------
+      Project: Crick trivia Game Mobile Application
+      Date: April 2, 2024
+      Author: Ameer from Pakistan
+      ---------------------------------------
+      Description: Custom App Bar
+    */
 import 'package:cricket_trivia/utils/values/my_color.dart';
 import 'package:cricket_trivia/utils/values/style.dart';
 import 'package:cricket_trivia/view/menu/menu.dart';
@@ -5,8 +13,6 @@ import 'package:cricket_trivia/view/widget/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import 'music_button.dart';
 
 class CustomAppBar extends StatelessWidget {
