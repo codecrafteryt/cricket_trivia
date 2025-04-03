@@ -7,8 +7,8 @@
         Description: Dependency Injection
       */
   import 'package:cricket_trivia/controller/quiz_controller.dart';
-import 'package:cricket_trivia/controller/sound_controller.dart';
-import 'package:get/get_core/src/get_main.dart';
+  import 'package:cricket_trivia/controller/sound_controller.dart';
+  import 'package:get/get_core/src/get_main.dart';
   import 'package:get/get_instance/get_instance.dart';
   import 'package:shared_preferences/shared_preferences.dart';
 

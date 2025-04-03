@@ -1,11 +1,19 @@
-import 'package:cricket_trivia/utils/extensions/extentions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+/*
+        ---------------------------------------
+        Project: Crick trivia Game Mobile Application
+        Date: April 2, 2024
+        Author: Ameer from Pakistan
+        ---------------------------------------
+        Description: All logic controller for quiz
+      */
+  import 'package:cricket_trivia/utils/extensions/extentions.dart';
+  import 'package:flutter/material.dart';
+  import 'package:flutter_screenutil/flutter_screenutil.dart';
+  import 'package:get/get.dart';
   import '../../controller/quiz_controller.dart';
-import '../../utils/values/my_color.dart';
+  import '../../utils/values/my_color.dart';
   import '../../utils/values/style.dart';
-import '../widget/custom_button.dart';
+  import '../widget/custom_button.dart';
 
   class MatchDetailsScreen extends StatelessWidget {
     final QuizController controller = Get.find();

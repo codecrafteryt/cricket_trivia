@@ -1,3 +1,11 @@
+/*
+        ---------------------------------------
+        Project: Crick trivia Game Mobile Application
+        Date: April 2, 2024
+        Author: Ameer from Pakistan
+        ---------------------------------------
+        Description: All logic controller for quiz
+      */
   import 'dart:async';
   import 'package:cricket_trivia/utils/extensions/extentions.dart';
   import 'package:cricket_trivia/utils/values/style.dart';
