@@ -95,7 +95,7 @@
                           right: 0,
                           child: Center(
                             child: CustomButton(
-                              text: "Read More",
+                              text: "Close",
                               textStyle: kSize14DarkW400Text.copyWith(
                                 fontSize: 15.sp,
                                 color: const Color.fromRGBO(34, 32, 75, 1),
@@ -103,7 +103,9 @@
                               height: 92.h,
                               width: 155.w,
                               borderRadius: 32.r,
-                              onPressed: controller.openMatchStory,
+                              onPressed: (){
+                                Get.back();
+                              },
                             ),
                           ),
                         ),
