@@ -6,8 +6,10 @@
         ---------------------------------------
         Description: All logic controller for quiz
       */
+  import 'package:cricket_trivia/controller/ad_controller.dart';
   import 'package:cricket_trivia/data/model/quiz_question_model.dart';
   import 'package:cricket_trivia/view/player/match_detail_screen.dart';
+  import 'package:cricket_trivia/view/quiz/quiz_screen.dart';
   import 'package:flutter/cupertino.dart';
   import 'package:get/get.dart';
   import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +25,7 @@
     RxList<bool> questionAnswered = <bool>[].obs;
     RxInt selectedAnswerIndex = (-1).obs;
     RxBool isAnswered = false.obs;
+    RxBool showReviveDialog = false.obs;
 
     // List of quiz questions
     final List<QuizQuestion> questions = [
@@ -85,21 +88,49 @@
     void answerQuestion(int selectedIndex) {
       if (!questionAnswered[currentQuestionIndex.value]) {
         selectedAnswerIndex.value = selectedIndex;
-        isAnswered.value = true; // Mark question as answered
-        if (selectedIndex == questions[currentQuestionIndex.value].correctAnswerIndex) {
-          score.value++;
-        }
+        isAnswered.value = true;
+        final isCorrect = selectedIndex == questions[currentQuestionIndex.value].correctAnswerIndex;
+        if (isCorrect) score.value++;
         questionAnswered[currentQuestionIndex.value] = true;
-        Future.delayed(const Duration(milliseconds: 1000), () { // Wait for animation/feedback before moving to next question
-          if (currentQuestionIndex.value < questions.length - 1) {
-            currentQuestionIndex.value++;
-            selectedAnswerIndex.value = -1;
-            isAnswered.value = false;
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          if (isCorrect) {
+            _recordTurnAndAdvance();
           } else {
-            Get.to(() => ResultScreen());
+            showReviveDialog.value = true;
           }
         });
       }
+    }
+
+    void _recordTurnAndAdvance() {
+      final adController = Get.find<AdController>();
+      adController.recordQuestionAnswered();
+      if (adController.shouldShowInterstitialAfterThisTurn()) {
+        adController.showInterstitial(whenClosed: _doAdvance);
+      } else {
+        _doAdvance();
+      }
+    }
+
+    void _doAdvance() {
+      if (currentQuestionIndex.value < questions.length - 1) {
+        currentQuestionIndex.value++;
+        selectedAnswerIndex.value = -1;
+        isAnswered.value = false;
+      } else {
+        Get.to(() => ResultScreen());
+      }
+    }
+
+    void continueAfterRevive() {
+      showReviveDialog.value = false;
+      _recordTurnAndAdvance();
+    }
+
+    void restartFromBeginning() {
+      showReviveDialog.value = false;
+      resetQuiz();
+      Get.offAll(() => QuizScreen());
     }
 
     void resetQuiz() {

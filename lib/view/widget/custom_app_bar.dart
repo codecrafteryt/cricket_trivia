@@ -54,8 +54,12 @@
               )
             ),
             BackButtons(
-              onTap: (){
-                Get.to(() => Menu());
+              onTap: () {
+                if (Navigator.canPop(context)) {
+                  Get.back();
+                } else {
+                  Get.offAll(() => Menu());
+                }
               },
             )
           ],

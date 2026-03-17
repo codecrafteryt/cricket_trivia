@@ -6,9 +6,12 @@
       ---------------------------------------
       Description: Quiz Screen UI
     */
+  import 'package:cricket_trivia/controller/ad_controller.dart';
   import 'package:cricket_trivia/controller/quiz_controller.dart';
+  import 'package:cricket_trivia/utils/extensions/extentions.dart';
   import 'package:cricket_trivia/utils/values/style.dart';
   import 'package:cricket_trivia/view/widget/custom_app_bar.dart';
+  import 'package:cricket_trivia/view/widget/custom_button.dart';
   import 'package:flutter/material.dart';
   import 'package:flutter_screenutil/flutter_screenutil.dart';
   import 'package:get/get.dart';
@@ -16,7 +19,87 @@
 
   class QuizScreen extends StatelessWidget {
     final QuizController quizController = Get.find();
+    final AdController adController = Get.find();
     QuizScreen({Key? key}) : super(key: key);
+
+    void _showReviveDialog(BuildContext context) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (ctx) => Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFF042165),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+            border: Border.all(color: MyColors.btnBorderColor, width: 4),
+          ),
+          padding: EdgeInsets.fromLTRB(24.w, 28.h, 24.w, 32.h + MediaQuery.of(ctx).padding.bottom),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Wrong answer!',
+                style: kSize11DarkW500Text.copyWith(
+                  color: Colors.white,
+                  fontSize: 26.sp,
+                ),
+              ),
+              12.sbh,
+              Text(
+                'Watch a short ad to continue from here, or restart from level 1.',
+                textAlign: TextAlign.center,
+                style: kSize14DarkW400Text.copyWith(
+                  color: MyColors.btnColor,
+                  fontSize: 16.sp,
+                ),
+              ),
+              24.sbh,
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Restart',
+                      textStyle: kSize14DarkW400Text.copyWith(
+                        fontSize: 16.sp,
+                        color: const Color(0xFF042165),
+                      ),
+                      height: 56.h,
+                      width: double.infinity,
+                      borderRadius: 20.r,
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        quizController.restartFromBeginning();
+                      },
+                    ),
+                  ),
+                  16.sbw,
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Revive',
+                      textStyle: kSize14DarkW400Text.copyWith(
+                        fontSize: 16.sp,
+                        color: Colors.black,
+                      ),
+                      height: 56.h,
+                      width: double.infinity,
+                      borderRadius: 20.r,
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        adController.showRewarded(
+                          onReward: quizController.continueAfterRevive,
+                          onFailedToShow: () => quizController.restartFromBeginning(),
+                          onAdDismissedWithoutReward: () {},
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -30,7 +113,14 @@
             ),
           ),
           child: SafeArea(
-            child: Obx(() => Column(
+            child: Obx(() {
+              if (quizController.showReviveDialog.value) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  quizController.showReviveDialog.value = false;
+                  _showReviveDialog(context);
+                });
+              }
+              return Column(
               children: [
                 CustomAppBar(onMusicTap: () {}, onMenuTap: () {}),
                 Padding(
@@ -102,7 +192,8 @@
                   ),
                 ),
               ],
-            )),
+            );
+            }),
           ),
         ),
       );

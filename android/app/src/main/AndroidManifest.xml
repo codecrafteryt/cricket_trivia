@@ -1,9 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.playersandcricketquiz.StumpFansCricketTrivia">
+    package="com.bitbyte.crickettriviapro">
     <application
-        android:label="Cricket Trivia"
+        android:label="Cricket Trivia Pro"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1302610560371949~1814722343"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
